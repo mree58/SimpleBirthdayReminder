@@ -1,0 +1,69 @@
+<resources>
+    <string name="app_name">Simple Birthday Reminder</string>
+    <string name="action_about">About</string>
+    <string name="action_rate">Rate Us</string>
+
+    <string name="about_title_simplebirthdayreminder">Simple Birthday Reminder</string>
+    <string name="about_simplebirthdayreminder">This mobile application designed and coded by Emre Baran. Some icons and graphs have CC-BY License. Some of them are free for personal and commercial use. And a few of them are designed by me.</string>
+    <string name="about_title_special_thanks">Special Thanks</string>
+    <string name="about_special_thanks">Ravi Tamada : Thank you for SQLite example.\nH.Ece Baran : Thank you for beta testing and sharing your ideas.</string>
+    <string name="about_title_application">About Application</string>
+    <string name="about_application">This application is open-source software. You can find the source codes on GitHub: mree58 \nFeel free to contact if you have any ideas or problems with application. Mail: emrebaran.ceng@gmail.com</string>
+    <string name="about_title_permissions">About Permissions</string>
+    <string name="about_permissions">WAKE_LOCK: for alarm, let you inform about incoming birthdays</string>
+    <string name="about_application_version">Application Version:</string>
+    <string name="about_supported_languages">Supported Languages:</string>
+
+
+    <string name="popup_edt_name">Name</string>
+    <string name="popup_edt_surname">Surname</string>
+
+    <string name="switch_on">Yes</string>
+    <string name="switch_off">No</string>
+
+    <string name="warning_name">Name cannot be blank !</string>
+    <string name="warning_surname">Surname cannot be blank !</string>
+
+    <string name="cancel">CANCEL</string>
+    <string name="ok">OK</string>
+
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
+
+    <string name="horoscope1">Capricorn</string>
+    <string name="horoscope2">Aquarius</string>
+    <string name="horoscope3">Pisces</string>
+    <string name="horoscope4">Aries</string>
+    <string name="horoscope5">Taurus</string>
+    <string name="horoscope6">Gemini</string>
+    <string name="horoscope7">Cancer</string>
+    <string name="horoscope8">Leo</string>
+    <string name="horoscope9">Virgo</string>
+    <string name="horoscope10">Libra</string>
+    <string name="horoscope11">Scorpio</string>
+    <string name="horoscope12">Sagittarius</string>
+
+
+
+    <string name="header_name">Name</string>
+    <string name="header_surname">Surname</string>
+    <string name="header_birthday">Birthdate</string>
+    <string name="header_age">Age</string>
+    <string name="header_daysleft">Days\nLeft</string>
+
+    <string name="notify_birthday1">Birthday</string>
+    <string name="notify_birthday2">Birthday Is Coming</string>
+    <string name="notify_birthday3">Dont Forget To Celebrate !</string>
+
+    <string name="alarm_cancelled">Alarm Cancelled !</string>
+    <string name="alarm_set">Alarm is set</string>
+    <string name="alarm_error">Alarm is null !</string>
+
+    <string name="delete_person">Are you sure you want to delete this people ?</string>
+
+    <string name="birth_date">Birthdate :</string>
+    <string name="alarm_question">Set reminder ?</string>
+
+    <string name="app_exit">Press Again To Exit</string>
+
+</resources>

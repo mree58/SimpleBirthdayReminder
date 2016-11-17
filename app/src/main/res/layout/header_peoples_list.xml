@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/white"
+	android:orientation="horizontal"
+	android:clickable="false"
+
+	>
+
+	<TextView
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_weight="7"
+		android:gravity="center|left"
+		android:layout_gravity="center"
+		android:text="@string/header_name"
+		android:textStyle="bold"
+		/>
+
+	<TextView
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_weight="8"
+		android:gravity="center|left"
+		android:layout_gravity="center"
+		android:text="@string/header_surname"
+		android:textStyle="bold"
+		/>
+
+	<TextView
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_weight="5"
+		android:gravity="center"
+		android:layout_gravity="center"
+		android:text="@string/header_birthday"
+		android:textStyle="bold"
+		/>
+
+	<TextView
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_weight="3"
+		android:gravity="center"
+		android:layout_gravity="center"
+		android:text="@string/header_age"
+		android:textStyle="bold"
+		/>
+
+	<TextView
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_weight="3"
+		android:gravity="center"
+		android:layout_gravity="center"
+		android:text="@string/header_daysleft"
+		android:textStyle="bold"
+		/>
+
+
+</LinearLayout>

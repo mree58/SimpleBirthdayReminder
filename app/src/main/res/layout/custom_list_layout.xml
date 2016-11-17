@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@drawable/list_item_selector"
+	android:clickable="false"
+	android:descendantFocusability="blocksDescendants"
+	>
+
+	<TableRow
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_alignParentLeft="true"
+		android:layout_marginLeft="0dp"
+		>
+
+		<TextView
+			android:id="@+id/item_name"
+			android:layout_width="0dp"
+			android:layout_height="30dp"
+			android:layout_weight="7"
+			android:gravity="center|left"
+			android:layout_gravity="center"
+			android:text="Emre"
+			android:textColor="@color/white"
+			android:textSize="@dimen/dimen_peoples_list_text_size"
+			/>
+
+		<TextView
+			android:id="@+id/item_surname"
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="8"
+			android:gravity="center|left"
+			android:layout_gravity="center"
+			android:text="Baran"
+			android:textColor="@color/white"
+			android:textSize="@dimen/dimen_peoples_list_text_size"
+			/>
+
+		<TextView
+			android:id="@+id/item_birthdate"
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="5"
+			android:gravity="center"
+			android:layout_gravity="center"
+			android:text="19/09/1992"
+			android:textColor="@color/white"
+			android:textSize="@dimen/dimen_peoples_list_text_size"
+			/>
+
+		<TextView
+			android:id="@+id/item_age"
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="3"
+			android:gravity="center"
+			android:layout_gravity="center"
+			android:text="25"
+			android:textColor="@color/white"
+			android:textSize="@dimen/dimen_peoples_list_text_size"
+			/>
+
+		<TextView
+			android:id="@+id/item_daysleft"
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="3"
+			android:gravity="center"
+			android:layout_gravity="center"
+			android:text="300"
+			android:textColor="@color/white"
+			android:textSize="@dimen/dimen_peoples_list_text_size"
+			android:maxLines="1"
+			/>
+	</TableRow>
+
+</TableLayout>

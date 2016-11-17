@@ -1,0 +1,133 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical"
+	android:background="@color/s1"
+	android:id="@+id/popup">
+
+
+	<android.support.design.widget.TextInputLayout
+		android:layout_width="match_parent"
+		android:layout_height="@dimen/dimen_add_new_sizes">
+
+		<EditText
+			android:id="@+id/popup_edt_name"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:ems="10"
+			android:hint="@string/popup_edt_name" >
+
+			<requestFocus />
+		</EditText>
+
+
+	</android.support.design.widget.TextInputLayout>
+
+
+	<android.support.design.widget.TextInputLayout
+		android:layout_width="match_parent"
+		android:layout_height="@dimen/dimen_add_new_sizes">
+
+		<EditText
+			android:id="@+id/popup_edt_surname"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:hint="@string/popup_edt_surname" />
+
+	</android.support.design.widget.TextInputLayout>
+
+	<LinearLayout
+		android:id="@+id/linDates"
+		android:layout_width="fill_parent"
+		android:layout_height="@dimen/dimen_add_new_sizes"
+		android:layout_marginTop="5dp"
+		android:layout_marginLeft="5dp"
+		android:layout_marginRight="5dp"
+		android:layout_alignParentLeft="true" >
+
+		<TextView
+			android:text="@string/birth_date"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:textSize="@dimen/dimen_add_new_text_size"
+			android:id="@+id/textView5"
+			android:textColor="@color/black"
+			android:layout_weight="1" />
+
+		<TextView
+			android:id="@+id/popup_txt_date"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:layout_weight="1"
+			android:gravity="center|right"
+			android:textColor="@color/black"
+			android:textSize="@dimen/dimen_add_new_text_size"
+			android:text="01/01/2000" />
+
+	</LinearLayout>
+
+
+
+
+	<LinearLayout
+		android:orientation="horizontal"
+		android:layout_width="match_parent"
+		android:layout_height="@dimen/dimen_add_new_sizes"
+		android:layout_marginTop="5dp"
+		android:layout_marginLeft="5dp"
+		android:layout_marginRight="5dp"
+		android:weightSum="3"
+		>
+
+		<Switch
+			android:text="@string/alarm_question"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:layout_weight="2.3"
+			android:id="@+id/popup_switch_alarm"
+			android:textSize="@dimen/dimen_add_new_text_size"
+			android:textOn="@string/switch_on"
+			android:textOff="@string/switch_off" />
+
+		<TextView
+			android:id="@+id/popup_txt_time"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="0.7"
+			android:gravity="center|right"
+			android:layout_gravity="center"
+			android:clickable="false"
+			android:textColor="@color/gray"
+			android:textSize="@dimen/dimen_add_new_text_size"
+			android:text="13:30" />
+	</LinearLayout>
+
+
+	<LinearLayout
+		android:orientation="horizontal"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+
+		<ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/popup_btn_close"
+			android:src="@drawable/ic_close_black_24dp"
+			android:tint="@color/white"
+			android:theme="@style/MyButton"
+			android:layout_weight="1" />
+
+		<ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/popup_btn_save"
+			android:src="@drawable/ic_check_black_24dp"
+			android:tint="@color/white"
+			android:theme="@style/MyButton"
+			android:layout_weight="1" />
+	</LinearLayout>
+
+</LinearLayout>
