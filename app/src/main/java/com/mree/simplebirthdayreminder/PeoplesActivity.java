@@ -1,4 +1,4 @@
-package com.example.mree.simplebirthdayreminder;
+package com.mree.simplebirthdayreminder;
 
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -65,7 +65,7 @@ public class PeoplesActivity extends AppCompatActivity{
 
     String[] array_empty = {};
 
-    PeoplesDB db= new PeoplesDB(this);
+    com.mree.simplebirthdayreminder.PeoplesDB db= new com.mree.simplebirthdayreminder.PeoplesDB(this);
 
     private boolean doubleBackToExitPressedOnce;
     private Handler mHandler = new Handler();
@@ -83,7 +83,7 @@ public class PeoplesActivity extends AppCompatActivity{
      //for header at top
         ViewGroup headerView = (ViewGroup) getLayoutInflater().inflate(R.layout.header_peoples_list, listPeoplesHeader, false);
         listPeoplesHeader.addHeaderView(headerView);
-        ListAdapterPeoples adapterx = new ListAdapterPeoples(PeoplesActivity.this, array_empty, array_empty, array_empty, array_empty, array_empty);
+        com.mree.simplebirthdayreminder.ListAdapterPeoples adapterx = new com.mree.simplebirthdayreminder.ListAdapterPeoples(PeoplesActivity.this, array_empty, array_empty, array_empty, array_empty, array_empty);
         listPeoplesHeader.setAdapter(adapterx);
 
 
@@ -212,7 +212,7 @@ public class PeoplesActivity extends AppCompatActivity{
 
         if(j>0) {
 
-            List<Peoples> contacts = db.getAllPeoples();
+            List<com.mree.simplebirthdayreminder.Peoples> contacts = db.getAllPeoples();
 
             array_ids = new Integer[j];
             array_names = new String[j];
@@ -222,7 +222,7 @@ public class PeoplesActivity extends AppCompatActivity{
             array_days = new String[j];
 
             int i = -1;
-            for (Peoples p : contacts) {
+            for (com.mree.simplebirthdayreminder.Peoples p : contacts) {
                 i++;
 
                 array_ids[i] = p.getID();
@@ -233,13 +233,13 @@ public class PeoplesActivity extends AppCompatActivity{
                 array_days[i] = p.getDaysLeft();
             }
 
-            ListAdapterPeoples adapter = new ListAdapterPeoples(PeoplesActivity.this, array_names, array_surnames, array_ages, array_birthdates, array_days);
+            com.mree.simplebirthdayreminder.ListAdapterPeoples adapter = new com.mree.simplebirthdayreminder.ListAdapterPeoples(PeoplesActivity.this, array_names, array_surnames, array_ages, array_birthdates, array_days);
             listPeoples.setAdapter(adapter);
         }
         else
         {
 
-            ListAdapterPeoples adapter = new ListAdapterPeoples(PeoplesActivity.this, array_empty, array_empty, array_empty, array_empty, array_empty);
+            com.mree.simplebirthdayreminder.ListAdapterPeoples adapter = new com.mree.simplebirthdayreminder.ListAdapterPeoples(PeoplesActivity.this, array_empty, array_empty, array_empty, array_empty, array_empty);
             listPeoples.setAdapter(adapter);
         }
     }
@@ -380,7 +380,7 @@ public class PeoplesActivity extends AppCompatActivity{
                     {
                         long inserted_id;
 
-                    inserted_id = db.addPeople(new Peoples(edtName.getText().toString(), edtSurname.getText().toString(),txtDate.getText().toString()));
+                    inserted_id = db.addPeople(new com.mree.simplebirthdayreminder.Peoples(edtName.getText().toString(), edtSurname.getText().toString(),txtDate.getText().toString()));
                     load();
 
                     if(swAlarm.isChecked())
@@ -444,7 +444,7 @@ public class PeoplesActivity extends AppCompatActivity{
 
         Toast.makeText(getApplicationContext(),getString(R.string.alarm_set),Toast.LENGTH_SHORT).show();
 
-        Intent intent = new Intent(getBaseContext(), AlarmManagerBroadcastReceiver.class);
+        Intent intent = new Intent(getBaseContext(), com.mree.simplebirthdayreminder.AlarmManagerBroadcastReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getBaseContext(), (int)alarm_id, intent, 0);
         AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), pendingIntent);
@@ -453,7 +453,7 @@ public class PeoplesActivity extends AppCompatActivity{
 
     public void cancelExactAlarm(int alarm_id){
         Context context = this.getApplicationContext();
-        AlarmManagerBroadcastReceiver alarm = new AlarmManagerBroadcastReceiver();
+        com.mree.simplebirthdayreminder.AlarmManagerBroadcastReceiver alarm = new com.mree.simplebirthdayreminder.AlarmManagerBroadcastReceiver();
 
         if(alarm != null){
             alarm.CancelAlarm(context,alarm_id);

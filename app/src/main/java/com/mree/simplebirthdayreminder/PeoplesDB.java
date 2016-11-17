@@ -1,4 +1,4 @@
-package com.example.mree.simplebirthdayreminder;
+package com.mree.simplebirthdayreminder;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -56,7 +56,7 @@ public class PeoplesDB extends SQLiteOpenHelper {
 
 
     // Adding new contact
-    long addPeople(Peoples people) {
+    long addPeople(com.mree.simplebirthdayreminder.Peoples people) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -78,22 +78,22 @@ public class PeoplesDB extends SQLiteOpenHelper {
     }
 
     // Getting single people
-    Peoples getPeople(int id) {
+    com.mree.simplebirthdayreminder.Peoples getPeople(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_PEOPLES, new String[] { KEY_ID, KEY_NAME, KEY_SURNAME }, KEY_ID + "=?", new String[] { String.valueOf(id) }, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
 
-        Peoples contact = new Peoples(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2));
+        com.mree.simplebirthdayreminder.Peoples contact = new com.mree.simplebirthdayreminder.Peoples(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2));
 
         return contact;
     }
 
 
     // Getting All Peoples
-    public List<Peoples> getAllPeoples() {
-        List<Peoples> contactList = new ArrayList<Peoples>();
+    public List<com.mree.simplebirthdayreminder.Peoples> getAllPeoples() {
+        List<com.mree.simplebirthdayreminder.Peoples> contactList = new ArrayList<com.mree.simplebirthdayreminder.Peoples>();
         // Select All Query Order By Days Left
         String selectQuery = "SELECT  * FROM " + TABLE_PEOPLES + " ORDER BY cast("+KEY_DAYS_LEFT +" AS INT)";
 
@@ -103,7 +103,7 @@ public class PeoplesDB extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                Peoples people = new Peoples();
+                com.mree.simplebirthdayreminder.Peoples people = new com.mree.simplebirthdayreminder.Peoples();
                 people.setID(Integer.parseInt(cursor.getString(0)));
                 people.setName(cursor.getString(1));
                 people.setSurname(cursor.getString(2));
@@ -143,7 +143,7 @@ public class PeoplesDB extends SQLiteOpenHelper {
 
 
     // Updating single people
-    public int updateContact(Peoples people) {
+    public int updateContact(com.mree.simplebirthdayreminder.Peoples people) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();

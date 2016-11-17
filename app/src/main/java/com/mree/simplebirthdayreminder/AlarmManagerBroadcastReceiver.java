@@ -1,4 +1,4 @@
-package com.example.mree.simplebirthdayreminder;
+package com.mree.simplebirthdayreminder;
 
 import android.app.AlarmManager;
 import android.app.Notification;

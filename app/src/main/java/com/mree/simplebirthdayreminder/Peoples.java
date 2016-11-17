@@ -1,4 +1,4 @@
-package com.example.mree.simplebirthdayreminder;
+package com.mree.simplebirthdayreminder;
 
 import java.util.Calendar;
 import java.util.Date;
