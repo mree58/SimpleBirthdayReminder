@@ -1,4 +1,4 @@
-package com.mree.simplebirthdayreminder;
+package com.emrebaran.simplebirthdayreminder;
 
 import android.app.AlarmManager;
 import android.app.Notification;
@@ -8,6 +8,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.PowerManager;
+
+import com.mree.simplebirthdayreminder.R;
 
 /**
  * Created by mree on 12.11.2016.

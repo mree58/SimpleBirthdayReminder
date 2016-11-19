@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Intro"
+            android:name="com.emrebaran.simplebirthdayreminder.Intro"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -22,9 +22,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".PeoplesActivity"/>
+        <activity android:name="com.emrebaran.simplebirthdayreminder.PeoplesActivity"/>
 
-        <receiver android:name=".AlarmManagerBroadcastReceiver" android:process=":remote" ></receiver>
+        <receiver android:name="com.emrebaran.simplebirthdayreminder.AlarmManagerBroadcastReceiver" android:process=":remote" ></receiver>
 
 
 

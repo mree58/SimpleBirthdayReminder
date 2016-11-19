@@ -1,8 +1,10 @@
-package com.mree.simplebirthdayreminder;
+package com.emrebaran.simplebirthdayreminder;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.mree.simplebirthdayreminder.R;
 
 /**
  * Created by mree on 14.11.2016.
@@ -14,7 +16,10 @@ public class Intro extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_intro);
 
+        PeoplesDB db= new PeoplesDB(this);
 
+
+        db.updateAllPeoples();
 
 
         Thread intro = new Thread(){

@@ -1,4 +1,4 @@
-package com.mree.simplebirthdayreminder;
+package com.emrebaran.simplebirthdayreminder;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import com.mree.simplebirthdayreminder.R;
 
 public class ListAdapterPeoples extends ArrayAdapter<String>{
 	

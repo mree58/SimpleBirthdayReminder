@@ -6,7 +6,7 @@
     <string name="about_title_simplebirthdayreminder">Simple Birthday Reminder</string>
     <string name="about_simplebirthdayreminder">This mobile application designed and coded by Emre Baran. Some icons and graphs have CC-BY License. Some of them are free for personal and commercial use. And a few of them are designed by me.</string>
     <string name="about_title_special_thanks">Special Thanks</string>
-    <string name="about_special_thanks">Ravi Tamada : Thank you for SQLite example.\nH.Ece Baran : Thank you for beta testing and sharing your ideas.</string>
+    <string name="about_special_thanks">Ravi Tamada : Thank you for SQLite example.\nBurak Yıldırım : Thank you for beta testing and sharing your ideas.</string>
     <string name="about_title_application">About Application</string>
     <string name="about_application">This application is open-source software. You can find the source codes on GitHub: mree58 \nFeel free to contact if you have any ideas or problems with application. Mail: emrebaran.ceng@gmail.com</string>
     <string name="about_title_permissions">About Permissions</string>

@@ -1,4 +1,4 @@
-package com.mree.simplebirthdayreminder;
+package com.emrebaran.simplebirthdayreminder;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -56,7 +56,7 @@ public class PeoplesDB extends SQLiteOpenHelper {
 
 
     // Adding new contact
-    long addPeople(com.mree.simplebirthdayreminder.Peoples people) {
+    long addPeople(Peoples people) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -78,22 +78,22 @@ public class PeoplesDB extends SQLiteOpenHelper {
     }
 
     // Getting single people
-    com.mree.simplebirthdayreminder.Peoples getPeople(int id) {
+    Peoples getPeople(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_PEOPLES, new String[] { KEY_ID, KEY_NAME, KEY_SURNAME }, KEY_ID + "=?", new String[] { String.valueOf(id) }, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
 
-        com.mree.simplebirthdayreminder.Peoples contact = new com.mree.simplebirthdayreminder.Peoples(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2));
+        Peoples contact = new Peoples(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2));
 
         return contact;
     }
 
 
     // Getting All Peoples
-    public List<com.mree.simplebirthdayreminder.Peoples> getAllPeoples() {
-        List<com.mree.simplebirthdayreminder.Peoples> contactList = new ArrayList<com.mree.simplebirthdayreminder.Peoples>();
+    public List<Peoples> getAllPeoples() {
+        List<Peoples> peoplesList = new ArrayList<Peoples>();
         // Select All Query Order By Days Left
         String selectQuery = "SELECT  * FROM " + TABLE_PEOPLES + " ORDER BY cast("+KEY_DAYS_LEFT +" AS INT)";
 
@@ -103,7 +103,7 @@ public class PeoplesDB extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                com.mree.simplebirthdayreminder.Peoples people = new com.mree.simplebirthdayreminder.Peoples();
+                Peoples people = new Peoples();
                 people.setID(Integer.parseInt(cursor.getString(0)));
                 people.setName(cursor.getString(1));
                 people.setSurname(cursor.getString(2));
@@ -112,14 +112,14 @@ public class PeoplesDB extends SQLiteOpenHelper {
                 people.setDaysLeft(cursor.getString(5));
 
                 // Adding people to list
-                contactList.add(people);
+                peoplesList.add(people);
             } while (cursor.moveToNext());
         }
 
 
         db.close();
 
-        return contactList;
+        return peoplesList;
     }
 
 
@@ -143,17 +143,47 @@ public class PeoplesDB extends SQLiteOpenHelper {
 
 
     // Updating single people
-    public int updateContact(com.mree.simplebirthdayreminder.Peoples people) {
+    public int updatePeople(Peoples people) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_NAME, people.getName());
-        values.put(KEY_SURNAME, people.getSurname());
+        values.put(KEY_CURRENT_AGE, people.getCurrentAge());
+        values.put(KEY_DAYS_LEFT, people.getDaysLeft());
 
         // updating row
         return db.update(TABLE_PEOPLES, values, KEY_ID + " = ?",
                 new String[] { String.valueOf(people.getID()) });
     }
+
+
+    public void updateAllPeoples() {
+
+        String selectQuery = "SELECT  * FROM " + TABLE_PEOPLES + " ORDER BY cast("+KEY_DAYS_LEFT +" AS INT)";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Peoples people = new Peoples();
+
+                ContentValues values = new ContentValues();
+                values.put(KEY_CURRENT_AGE, people.calculateAge(cursor.getString(3)));
+                values.put(KEY_DAYS_LEFT, people.calculateDays(cursor.getString(3)));
+
+
+                db.update(TABLE_PEOPLES, values, KEY_ID + " = ?",
+                        new String[] { String.valueOf(cursor.getString(0)) });
+
+            } while (cursor.moveToNext());
+        }
+
+
+        db.close();
+
+    }
+
 
     // Deleting single people
   /*  public void deletePeople(Peoples people) {
