@@ -32,7 +32,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         //Acquire the lock
         wl.acquire();
 
-        MyNotification(context,context.getString(R.string.notify_birthday1), context.getString(R.string.notify_birthday2), context.getString(R.string.notify_birthday3), R.drawable.ic_cake_black_24dp, R.drawable.ic_cake_black_24dp);
+        MyNotification(context,context.getString(R.string.notify_birthday1), context.getString(R.string.notify_birthday2), context.getString(R.string.notify_birthday3), R.mipmap.ic_launcher, R.mipmap.ic_launcher);
         //Release the lock
         wl.release();
 
