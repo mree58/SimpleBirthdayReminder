@@ -1,18 +1,21 @@
 <resources>
     <string name="app_name">Doğum Günü Hatırlatıcı</string>
+    <string name="action_help">Yardım</string>
     <string name="action_about">Hakkında</string>
     <string name="action_rate">Google Play\'de Oylayın</string>
 
+    <string name="action_help_message">Kişileri düzenlemek için üzerine tıklayın !\nKişilere uzun tıklayarak burçlarını görebilirsiniz !</string>
+
     <string name="about_title_simplebirthdayreminder">Doğum Günü Hatırlatıcı</string>
-    <string name="about_simplebirthdayreminder">Bu mobil uygulama Emre Baran tarafından tasarlanmış ve kodlanmıştır. Bazı ikonlar ve görseller CC-BY Lisansı\'na sahiptir. Bir kısmının kişisel ve ticari kullanımı serbesttir. Az bir kısmı benim tarafımdan tasarlanmıştır.</string>
+    <string name="about_simplebirthdayreminder">Bu mobil uygulama Emre Baran tarafından tasarlanmış ve kodlanmıştır. Bazı ikonlar ve görseller CC-BY Lisansı\'na sahiptir. Bir kısmının kişisel ve ticari kullanımı serbesttir. Az bir kısmı Emre Baran tarafından tasarlanmıştır.</string>
     <string name="about_title_special_thanks">Özel Teşekkür</string>
     <string name="about_special_thanks">Ravi Tamada : SQLite örneği için teşekkürler.\nBurak Yıldırım : Uygulamayı test edip fikirlerini paylaştığın için teşekkürler.</string>
     <string name="about_title_application">Uygulama Hakkında</string>
     <string name="about_application">Bu uygulama açık-kaynak bir yazılımdır. Kaynak kodları GitHub\'da bulabilirsiniz: mree58 \nFikirlerinizi paylaşmak istiyorsanız veya uygulama ile ilgili sorun yaşıyorsanız lütfen iletişime geçin. Mail: emrebaran.ceng@gmail.com</string>
     <string name="about_title_permissions">İzinler Hakkında</string>
     <string name="about_permissions">WAKE_LOCK: alarm kurabilmek için, yaklaşan doğum günleri hakkında bildirim alırsınız</string>
-    <string name="about_application_version">Uygulama Versiyonu:</string>
-    <string name="about_supported_languages">Desteklenen Diller:</string>
+    <string name="about_application_version">Uygulama Versiyonu: 1.2.0</string>
+    <string name="about_supported_languages">Desteklenen Diller: English, Türkçe</string>
 
     <string name="popup_edt_name">Ad</string>
     <string name="popup_edt_surname">Soyad</string>
@@ -33,9 +36,9 @@
     <string name = "horoscope2">Kova</string>
     <string name = "horoscope3">Balık</string>
     <string name = "horoscope4">Koç</string>
-    <string name = "horoscope5">Toros</string>
+    <string name = "horoscope5">Boğa</string>
     <string name = "horoscope6">İkizler</string>
-    <string name = "horoscope7">kanser</string>
+    <string name = "horoscope7">Yengeç</string>
     <string name = "horoscope8">Aslan</string>
     <string name = "horoscope9">Başak</string>
     <string name = "horoscope10">Terazi</string>
@@ -58,6 +61,8 @@
     <string name="alarm_error">Alarm is null !</string>
 
     <string name="delete_person">Bu kişiyi silmek istediğinizden emin misiniz ?</string>
+
+    <string name="edit_person_warning">Güncelleme başarısız  !</string>
 
     <string name="birth_date">Doğum Tarihi :</string>
     <string name="alarm_question">Hatırlatıcı Kur ?</string>

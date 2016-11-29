@@ -21,7 +21,7 @@
 	<TextView
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:layout_weight="8"
+		android:layout_weight="7"
 		android:gravity="center|left"
 		android:layout_gravity="center"
 		android:text="@string/header_surname"
@@ -31,7 +31,7 @@
 	<TextView
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:layout_weight="5"
+		android:layout_weight="6"
 		android:gravity="center"
 		android:layout_gravity="center"
 		android:text="@string/header_birthday"

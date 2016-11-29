@@ -7,10 +7,12 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Point;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -55,6 +57,8 @@ public class PeoplesActivity extends AppCompatActivity{
 
     //initialize date and time
     int year = 2010,month = 0,day = 1,hour = 13,minute= 30;
+
+    int edit_year = 2010 , edit_month = 0, edit_day = 1;
 
     private static int SIMPLE_NOTIFICATION_ID=1;
 
@@ -102,10 +106,24 @@ public class PeoplesActivity extends AppCompatActivity{
 
                 final Dialog infoDialog = new Dialog(PeoplesActivity.this);
                 infoDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                infoDialog.setContentView(R.layout.layout_popup_delete);
+                infoDialog.setContentView(R.layout.layout_dialog_buttons);
 
 
                 infoDialog.getWindow().setLayout(WindowManager.LayoutParams.FILL_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+
+
+
+                ImageButton editPerson = (ImageButton) infoDialog.findViewById(R.id.popup_btn_edit);
+                editPerson.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        showPopupEdit(PeoplesActivity.this,array_ids[position],array_names[position],array_surnames[position],array_birthdates[position]);
+                        infoDialog.dismiss();
+
+
+                    }
+                });
 
 
                 ImageButton cancelAlarm = (ImageButton) infoDialog.findViewById(R.id.popup_btn_cancel_alarm);
@@ -402,6 +420,124 @@ public class PeoplesActivity extends AppCompatActivity{
 
 
 
+    private PopupWindow pwe;
+    private void showPopupEdit(final Activity context, final int update_id, final String name, final String sur_name, final String birth_date) {
+        try {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            final View layout = inflater.inflate(R.layout.layout_edit, (ViewGroup) findViewById(R.id.popup));
+
+            float popupWidth = 350*metrics.scaledDensity;
+            float popupHeight = 210*metrics.scaledDensity;
+
+            pwe = new PopupWindow(context);
+            pwe.setContentView(layout);
+            pwe.setWidth((int)popupWidth);
+            pwe.setHeight((int)popupHeight);
+            pwe.setFocusable(true);
+
+            Point p = new Point();
+            p.x = 50;
+            p.y = 50;
+
+            int OFFSET_X = -50;
+            int OFFSET_Y = (int)(90*metrics.scaledDensity);
+
+
+            pwe.showAtLocation(layout, Gravity.TOP, p.x + OFFSET_X, p.y + OFFSET_Y);
+
+
+            final EditText edtName= (EditText) layout.findViewById(R.id.popup_edt_name);
+            final EditText edtSurname= (EditText) layout.findViewById(R.id.popup_edt_surname);
+            final TextView txtDate= (TextView) layout.findViewById(R.id.popup_txt_date);
+
+            final Calendar c = Calendar.getInstance();
+
+            edtName.setText(name);
+            edtSurname.setText(sur_name);
+            txtDate.setText(birth_date);
+
+            String[] dates = birth_date.split("/");
+            edit_day = Integer.parseInt(dates[0]);
+            edit_month = Integer.parseInt(dates[1])-1;
+            edit_year = Integer.parseInt(dates[2]);
+
+            txtDate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    DatePickerDialog dpd = new DatePickerDialog(PeoplesActivity.this,
+                            new DatePickerDialog.OnDateSetListener() {
+                                @Override
+                                public void onDateSet(DatePicker view, int _year, int _month, int _day) {
+
+                                    c.set(_year, _month, _day);
+                                    String date = new SimpleDateFormat("dd/MM/yyyy").format(c.getTime());
+                                    txtDate.setText(date);
+
+
+                                    edit_year = c.get(Calendar.YEAR);
+                                    edit_month = c.get(Calendar.MONTH);
+                                    edit_day = c.get(Calendar.DAY_OF_MONTH);
+
+                                }
+                            }, edit_year, edit_month, edit_day);
+
+                    Calendar d = Calendar.getInstance();
+                    d.add(Calendar.MONTH, 1);
+
+                    dpd.show();
+
+                }
+            });
+
+
+            ImageButton close= (ImageButton) layout.findViewById(R.id.popup_btn_close);
+            close.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    pwe.dismiss();
+
+                }
+            });
+
+            ImageButton save= (ImageButton) layout.findViewById(R.id.popup_btn_save);
+            save.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+
+                    if(edtName.getText().toString().length()<1)
+                        Toast.makeText(getApplicationContext(),getResources().getString(R.string.warning_name),Toast.LENGTH_SHORT).show();
+                    else if(edtSurname.getText().toString().length()<1)
+                        Toast.makeText(getApplicationContext(),getResources().getString(R.string.warning_surname),Toast.LENGTH_SHORT).show();
+                    else
+                    {
+                        long updated_id;
+
+
+
+                        updated_id = db.updatePeople(new Peoples(edtName.getText().toString(), edtSurname.getText().toString(),txtDate.getText().toString()),update_id);
+
+                        if(updated_id!=0) {
+
+                            load();
+                            pwe.dismiss();
+                        }
+                        else
+                        {
+                            Toast.makeText(getApplicationContext(),getResources().getString(R.string.edit_person_warning),Toast.LENGTH_SHORT).show();
+
+                        }
+
+                    }
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private void setAlarm(String my_date, String my_time, long alarm_id){
         String[] dates = my_date.split("/");
@@ -471,7 +607,7 @@ public class PeoplesActivity extends AppCompatActivity{
             View layout = inflater.inflate(R.layout.layout_about, (ViewGroup) findViewById(R.id.popup_1));
 
             float popupWidth = 330*metrics.scaledDensity;
-            float popupHeight = 440*metrics.scaledDensity;
+            float popupHeight = 460*metrics.scaledDensity;
 
             pwa = new PopupWindow(context);
             pwa.setContentView(layout);
@@ -542,13 +678,37 @@ public class PeoplesActivity extends AppCompatActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
+        if (id == R.id.action_help) {
+
+            Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.action_help_message), Toast.LENGTH_LONG);
+            TextView vv = (TextView) toast.getView().findViewById(android.R.id.message);
+            if( vv != null) vv.setGravity(Gravity.CENTER);
+            toast.show();
+
+            return true;
+        }
+
         if (id == R.id.action_about) {
             showPopupAbout(PeoplesActivity.this);
 
             return true;
         }
         if (id == R.id.action_rate) {
-            Toast.makeText(getApplicationContext(),"Rate is not active",Toast.LENGTH_LONG).show();
+
+            Uri uri = Uri.parse("market://details?id=" + getApplicationContext().getPackageName());
+            Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+            // To count with Play market backstack, After pressing back button,
+            // to taken back to our application, we need to add following flags to intent.
+            goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
+                    Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                    Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+            try {
+                startActivity(goToMarket);
+            } catch (ActivityNotFoundException e) {
+                startActivity(new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("http://play.google.com/store/apps/details?id=" + getApplicationContext().getPackageName())));
+            }
+
             return true;
         }
         return super.onOptionsItemSelected(item);

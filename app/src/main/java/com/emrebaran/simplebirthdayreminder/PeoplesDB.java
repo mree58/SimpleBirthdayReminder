@@ -143,16 +143,18 @@ public class PeoplesDB extends SQLiteOpenHelper {
 
 
     // Updating single people
-    public int updatePeople(Peoples people) {
+    public int updatePeople(Peoples people,int id) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
+        values.put(KEY_NAME, people.getName());
+        values.put(KEY_SURNAME, people.getSurname());
+        values.put(KEY_BIRTH_DATE, people.getBirthDate());
         values.put(KEY_CURRENT_AGE, people.getCurrentAge());
         values.put(KEY_DAYS_LEFT, people.getDaysLeft());
 
         // updating row
-        return db.update(TABLE_PEOPLES, values, KEY_ID + " = ?",
-                new String[] { String.valueOf(people.getID()) });
+        return db.update(TABLE_PEOPLES, values, KEY_ID + " = ?", new String[] { String.valueOf(id) });
     }
 
 

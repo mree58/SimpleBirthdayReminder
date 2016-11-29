@@ -1,18 +1,21 @@
 <resources>
     <string name="app_name">Simple Birthday Reminder</string>
+    <string name="action_help">Help</string>
     <string name="action_about">About</string>
-    <string name="action_rate">Rate Us</string>
+    <string name="action_rate">Rate App</string>
+
+    <string name="action_help_message">Click people to edit them !\nLong click people to see their horoscope !</string>
 
     <string name="about_title_simplebirthdayreminder">Simple Birthday Reminder</string>
-    <string name="about_simplebirthdayreminder">This mobile application designed and coded by Emre Baran. Some icons and graphs have CC-BY License. Some of them are free for personal and commercial use. And a few of them are designed by me.</string>
+    <string name="about_simplebirthdayreminder">This mobile application designed and coded by Emre Baran. Some icons and graphs have CC-BY License. Some of them are free for personal and commercial use. And a few of them are designed by Emre Baran.</string>
     <string name="about_title_special_thanks">Special Thanks</string>
     <string name="about_special_thanks">Ravi Tamada : Thank you for SQLite example.\nBurak Yıldırım : Thank you for beta testing and sharing your ideas.</string>
     <string name="about_title_application">About Application</string>
     <string name="about_application">This application is open-source software. You can find the source codes on GitHub: mree58 \nFeel free to contact if you have any ideas or problems with application. Mail: emrebaran.ceng@gmail.com</string>
     <string name="about_title_permissions">About Permissions</string>
     <string name="about_permissions">WAKE_LOCK: for alarm, let you inform about incoming birthdays</string>
-    <string name="about_application_version">Application Version:</string>
-    <string name="about_supported_languages">Supported Languages:</string>
+    <string name="about_application_version">Application Version: 1.2.0</string>
+    <string name="about_supported_languages">Supported Languages: English, Türkçe</string>
 
 
     <string name="popup_edt_name">Name</string>
@@ -60,6 +63,8 @@
     <string name="alarm_error">Alarm is null !</string>
 
     <string name="delete_person">Are you sure you want to delete this people ?</string>
+
+    <string name="edit_person_warning">Update failed  !</string>
 
     <string name="birth_date">Birthdate :</string>
     <string name="alarm_question">Set reminder ?</string>

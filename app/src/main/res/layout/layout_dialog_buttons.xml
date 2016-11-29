@@ -7,6 +7,15 @@
 		<ImageButton
 			android:layout_width="0dp"
 			android:layout_height="50dp"
+			android:id="@+id/popup_btn_edit"
+			android:src="@drawable/ic_person_edit_black_24dp"
+			android:tint="@color/white"
+			android:theme="@style/MyButton"
+			android:layout_weight="1" />
+
+		<ImageButton
+			android:layout_width="0dp"
+			android:layout_height="50dp"
 			android:id="@+id/popup_btn_cancel_alarm"
 			android:src="@drawable/ic_alarm_off_black_24dp"
 			android:tint="@color/white"
