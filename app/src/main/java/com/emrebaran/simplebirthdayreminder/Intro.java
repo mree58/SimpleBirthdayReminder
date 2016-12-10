@@ -26,7 +26,7 @@ public class Intro extends Activity {
             public void run(){
                 try {
 
-                    sleep(1000);
+                    sleep(1200);
 
                 } catch (Exception e) {
                     e.printStackTrace();

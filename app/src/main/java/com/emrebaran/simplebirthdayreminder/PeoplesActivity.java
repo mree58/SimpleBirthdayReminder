@@ -1,8 +1,8 @@
 package com.emrebaran.simplebirthdayreminder;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlarmManager;
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
@@ -11,12 +11,20 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.Gravity;
@@ -49,7 +57,7 @@ import java.util.List;
  * Created by mree on 10.11.2016.
  */
 
-public class PeoplesActivity extends AppCompatActivity{
+public class PeoplesActivity extends AppCompatActivity implements BackupAndRestore.OnBackupListener {
 
     ListView listPeoples, listPeoplesHeader;
 
@@ -73,13 +81,26 @@ public class PeoplesActivity extends AppCompatActivity{
 
     PeoplesDB db= new PeoplesDB(this);
 
+    private BackupAndRestore backupData;
+
     private boolean doubleBackToExitPressedOnce;
     private Handler mHandler = new Handler();
+
+    int txtChangeControl;
+
+
+    //permissions
+    private static final int PERMISSION_CALLBACK_CONSTANT = 100;
+    private static final int REQUEST_PERMISSION_SETTING = 101;
+    String[] permissionsRequired = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    private SharedPreferences permissionStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_peoples_activity);
+
+        permissionStatus = getSharedPreferences("permissionStatus",MODE_PRIVATE);
 
         listPeoples = (ListView) findViewById(R.id.lvPeoples);
 
@@ -99,6 +120,11 @@ public class PeoplesActivity extends AppCompatActivity{
         display.getMetrics(metrics);
 
         load();
+
+
+        backupData = new BackupAndRestore(this);
+        backupData.setOnBackupListener(this);
+
 
         listPeoples.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -461,6 +487,8 @@ public class PeoplesActivity extends AppCompatActivity{
             edit_month = Integer.parseInt(dates[1])-1;
             edit_year = Integer.parseInt(dates[2]);
 
+            txtChangeControl = 0;
+
             txtDate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -491,6 +519,26 @@ public class PeoplesActivity extends AppCompatActivity{
             });
 
 
+            txtDate.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+
+                    txtChangeControl++;
+
+                }
+            });
+
             ImageButton close= (ImageButton) layout.findViewById(R.id.popup_btn_close);
             close.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -514,11 +562,15 @@ public class PeoplesActivity extends AppCompatActivity{
                     {
                         long updated_id;
 
-
-
                         updated_id = db.updatePeople(new Peoples(edtName.getText().toString(), edtSurname.getText().toString(),txtDate.getText().toString()),update_id);
 
                         if(updated_id!=0) {
+
+                            if(txtChangeControl>0) {
+                                cancelExactAlarm((int) updated_id);
+                                Toast.makeText(getApplicationContext(), getString(R.string.alarm_cancelled), Toast.LENGTH_SHORT).show();
+                            }
+
 
                             load();
                             pwe.dismiss();
@@ -607,7 +659,7 @@ public class PeoplesActivity extends AppCompatActivity{
             View layout = inflater.inflate(R.layout.layout_about, (ViewGroup) findViewById(R.id.popup_1));
 
             float popupWidth = 330*metrics.scaledDensity;
-            float popupHeight = 460*metrics.scaledDensity;
+            float popupHeight = 500*metrics.scaledDensity;
 
             pwa = new PopupWindow(context);
             pwa.setContentView(layout);
@@ -620,7 +672,7 @@ public class PeoplesActivity extends AppCompatActivity{
             p.y = 50;
 
             int OFFSET_X = -50;
-            int OFFSET_Y = (int)(80*metrics.scaledDensity);
+            int OFFSET_Y = (int)(50*metrics.scaledDensity);
 
 
             pwa.showAtLocation(layout, Gravity.TOP, p.x + OFFSET_X, p.y + OFFSET_Y);
@@ -668,6 +720,161 @@ public class PeoplesActivity extends AppCompatActivity{
     }
 
 
+    public void checkPermissions(){
+            if(ActivityCompat.checkSelfPermission(PeoplesActivity.this, permissionsRequired[0]) != PackageManager.PERMISSION_GRANTED
+                    || ActivityCompat.checkSelfPermission(PeoplesActivity.this, permissionsRequired[1]) != PackageManager.PERMISSION_GRANTED){
+                if(ActivityCompat.shouldShowRequestPermissionRationale(PeoplesActivity.this,permissionsRequired[0])
+                        || ActivityCompat.shouldShowRequestPermissionRationale(PeoplesActivity.this,permissionsRequired[1])){
+                    //Show Information about why you need the permission
+                    AlertDialog.Builder builder = new AlertDialog.Builder(PeoplesActivity.this);
+                    builder.setTitle(getString(R.string.permissions_title));
+                    builder.setMessage(getString(R.string.permissions_message));
+                    builder.setPositiveButton(getString(R.string.permissions_grant), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                            ActivityCompat.requestPermissions(PeoplesActivity.this,permissionsRequired,PERMISSION_CALLBACK_CONSTANT);
+                        }
+                    });
+                    builder.setNegativeButton(getString(R.string.permissions_cancel), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    builder.show();
+                } else if (permissionStatus.getBoolean(permissionsRequired[0],false)) {
+                    //Previously Permission Request was cancelled with 'Dont Ask Again',
+                    // Redirect to Settings after showing Information about why you need the permission
+                    AlertDialog.Builder builder = new AlertDialog.Builder(PeoplesActivity.this);
+                    builder.setTitle(getString(R.string.permissions_title));
+                    builder.setMessage(getString(R.string.permissions_message));
+                    builder.setPositiveButton(getString(R.string.permissions_grant), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                            Uri uri = Uri.fromParts("package", getPackageName(), null);
+                            intent.setData(uri);
+                            startActivityForResult(intent, REQUEST_PERMISSION_SETTING);
+                            Toast.makeText(getBaseContext(), "Go to Permissions to Grant Storage", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    builder.setNegativeButton(getString(R.string.permissions_cancel), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    builder.show();
+                }  else {
+                    //just request the permission
+                    ActivityCompat.requestPermissions(PeoplesActivity.this,permissionsRequired,PERMISSION_CALLBACK_CONSTANT);
+                }
+
+                SharedPreferences.Editor editor = permissionStatus.edit();
+                editor.putBoolean(permissionsRequired[0],true);
+                editor.commit();
+            } else {
+                //You already have the permission, just go ahead.
+                proceedAfterPermission();
+            }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == PERMISSION_CALLBACK_CONSTANT){
+            //check if all permissions are granted
+            boolean allgranted = false;
+            for(int i=0;i<grantResults.length;i++){
+                if(grantResults[i]==PackageManager.PERMISSION_GRANTED){
+                    allgranted = true;
+                } else {
+                    allgranted = false;
+                    break;
+                }
+            }
+
+            if(allgranted)
+            {
+                proceedAfterPermission();
+            }
+            else if(ActivityCompat.shouldShowRequestPermissionRationale(PeoplesActivity.this,permissionsRequired[0])
+                    || ActivityCompat.shouldShowRequestPermissionRationale(PeoplesActivity.this,permissionsRequired[1]))
+            {
+                AlertDialog.Builder builder = new AlertDialog.Builder(PeoplesActivity.this);
+                builder.setTitle(getString(R.string.permissions_title));
+                builder.setMessage(getString(R.string.permissions_message));
+                builder.setPositiveButton(getString(R.string.permissions_grant), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                        ActivityCompat.requestPermissions(PeoplesActivity.this,permissionsRequired,PERMISSION_CALLBACK_CONSTANT);
+                    }
+                });
+                builder.setNegativeButton(getString(R.string.permissions_cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.show();
+            }
+            else
+            {
+                Toast.makeText(getBaseContext(),getString(R.string.permissions_unable),Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+
+    private void proceedAfterPermission() {
+        AlertDialog.Builder newDialog = new AlertDialog.Builder(PeoplesActivity.this);
+        newDialog.setMessage(getString(R.string.backup_question));
+        newDialog.setPositiveButton(getString(R.string.exportDb), new DialogInterface.OnClickListener(){
+            public void onClick(DialogInterface dialog, int which){
+
+                if(db.getRowCount()>0)
+                    backupData.exportToSD();
+                else
+                    Toast.makeText(getApplicationContext(),getString(R.string.export_warning),Toast.LENGTH_SHORT).show();
+
+                dialog.dismiss();
+
+            }
+        });
+        newDialog.setNegativeButton(getString(R.string.importDb), new DialogInterface.OnClickListener(){
+            public void onClick(DialogInterface dialog, int which){
+
+                backupData.importFromSD();
+
+                dialog.cancel();
+            }
+        });
+        newDialog.show();
+    }
+
+
+    @Override
+    public void onFinishExport(String error) {
+        String notify = error;
+        if (error == null) {
+            notify = getString(R.string.backup_export_success);
+        }
+        Toast.makeText(getApplicationContext(), notify, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onFinishImport(String error) {
+        String notify = error;
+        if (error == null) {
+            notify = getString(R.string.backup_import_success);
+            load();
+        }
+        Toast.makeText(getApplicationContext(), notify, Toast.LENGTH_SHORT).show();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -678,7 +885,13 @@ public class PeoplesActivity extends AppCompatActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_help) {
+        if (id == R.id.action_db) {
+
+            checkPermissions();
+
+
+        }
+        else if (id == R.id.action_help) {
 
             Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.action_help_message), Toast.LENGTH_LONG);
             TextView vv = (TextView) toast.getView().findViewById(android.R.id.message);
@@ -688,12 +901,12 @@ public class PeoplesActivity extends AppCompatActivity{
             return true;
         }
 
-        if (id == R.id.action_about) {
+        else if (id == R.id.action_about) {
             showPopupAbout(PeoplesActivity.this);
 
             return true;
         }
-        if (id == R.id.action_rate) {
+        else if (id == R.id.action_rate) {
 
             Uri uri = Uri.parse("market://details?id=" + getApplicationContext().getPackageName());
             Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);

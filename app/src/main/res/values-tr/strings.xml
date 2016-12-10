@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Doğum Günü Hatırlatıcı</string>
+
+    <string name="action_db">Yedekle &amp; Geri Yükle</string>
     <string name="action_help">Yardım</string>
     <string name="action_about">Hakkında</string>
     <string name="action_rate">Google Play\'de Oylayın</string>
@@ -9,12 +11,12 @@
     <string name="about_title_simplebirthdayreminder">Doğum Günü Hatırlatıcı</string>
     <string name="about_simplebirthdayreminder">Bu mobil uygulama Emre Baran tarafından tasarlanmış ve kodlanmıştır. Bazı ikonlar ve görseller CC-BY Lisansı\'na sahiptir. Bir kısmının kişisel ve ticari kullanımı serbesttir. Az bir kısmı Emre Baran tarafından tasarlanmıştır.</string>
     <string name="about_title_special_thanks">Özel Teşekkür</string>
-    <string name="about_special_thanks">Ravi Tamada : SQLite örneği için teşekkürler.\nBurak Yıldırım : Uygulamayı test edip fikirlerini paylaştığın için teşekkürler.</string>
+    <string name="about_special_thanks">Ravi Tamada : SQLite örneği için.\nVan Quan Nguyen: Database yedekleme örneği için.\nBurak Yıldırım : Uygulamayı test edip fikirlerini paylaştığın için</string>
     <string name="about_title_application">Uygulama Hakkında</string>
     <string name="about_application">Bu uygulama açık-kaynak bir yazılımdır. Kaynak kodları GitHub\'da bulabilirsiniz: mree58 \nFikirlerinizi paylaşmak istiyorsanız veya uygulama ile ilgili sorun yaşıyorsanız lütfen iletişime geçin. Mail: emrebaran.ceng@gmail.com</string>
     <string name="about_title_permissions">İzinler Hakkında</string>
-    <string name="about_permissions">WAKE_LOCK: alarm kurabilmek için, yaklaşan doğum günleri hakkında bildirim alırsınız</string>
-    <string name="about_application_version">Uygulama Versiyonu: 1.2.0</string>
+    <string name="about_permissions">WAKE_LOCK: alarm kurabilmek için, yaklaşan doğum günleri hakkında bildirim alırsınız\nWRITE_EXTERNAL_STORAGE: verilerinizi yedekleyebilmek için\nREAD_EXTERNAL_STORAGE: yedeklenen verilerinizi geri yükleyebilmek için</string>
+    <string name="about_application_version">Uygulama Versiyonu: 1.3.0</string>
     <string name="about_supported_languages">Desteklenen Diller: English, Türkçe</string>
 
     <string name="popup_edt_name">Ad</string>
@@ -68,6 +70,31 @@
     <string name="alarm_question">Hatırlatıcı Kur ?</string>
 
     <string name="app_exit">Çıkmak için tekrar basın</string>
+
+    <string name="exportDb">Yedekle</string>
+    <string name="importDb">Geri Yükle</string>
+
+    <string name="export_warning">Yedeklenecek veri yok !</string>
+
+    <string name="backup_question">Geri yükleme işlemi şu anki datalarınızın ve alarmlarınızın kaybolmasına yol açabilir !</string>
+    <string name="backup_before_import">Eski bir veritabanı geri yüklemesinden önce geçerli verilerinizi yedeklemek ister misiniz ?</string>
+    <string name="backup_current_file">Mevcut Veritabanını Yedekle</string>
+    <string name="backup_select_file">Yedek Dosyası Seçin</string>
+    <string name="backup_empty">Yedek dosya bulunamadı !</string>
+    <string name="backup_import_error">Hata: Geri yükleme !</string>
+    <string name="backup_export_error">Hata: Yedekleme !</string>
+    <string name="backup_load_error">Hata: Dosya yüklenemedi !</string>
+    <string name="backup_importing_dialog">İçe aktarılıyor ...</string>
+    <string name="backup_import_success">Geri yükleme başarılı oldu</string>
+    <string name="backup_export_success">Yedekleme başarılı oldu</string>
+
+
+    <string name="permissions_title">İzinler Gerekli !</string>
+    <string name="permissions_message">Bu uygulama yedekleme ve geri yükleme yapabilmek için Depolama iznine ihtiyaç duymaktadır.</string>
+    <string name="permissions_grant">İzin Ver</string>
+    <string name="permissions_cancel">İptal</string>
+    <string name="permissions_goto">Depolamaya izin vermek için izin ayarlarına gidin</string>
+    <string name="permissions_unable">İzin alınamadı</string>
 
 
 </resources>

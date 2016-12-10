@@ -17,8 +17,8 @@ public class PeoplesDB extends SQLiteOpenHelper {
 
 
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "dbPeoples";
-    private static final String TABLE_PEOPLES = "tbPeoples";
+    public static final String DATABASE_NAME = "dbPeoples";
+    public static final String TABLE_PEOPLES = "tbPeoples";
 
     //Table Columns names
     private static final String KEY_ID = "id";
@@ -201,6 +201,61 @@ public class PeoplesDB extends SQLiteOpenHelper {
         db.delete(TABLE_PEOPLES, KEY_ID + " = ?", new String[] { String.valueOf(id) });
         db.close();
     }
+
+
+
+
+
+    public long insertNote(Peoples p) {
+        return insert(TABLE_PEOPLES, noteToValues(p));
+    }
+    public long insert(String table, ContentValues values) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        long index = db.insert(table, null, values);
+        db.close();
+        return index;
+    }
+
+    private ContentValues noteToValues(Peoples people) {
+        ContentValues values = new ContentValues();
+        values.put(KEY_NAME, people.getName());
+        values.put(KEY_SURNAME, people.getSurname());
+        values.put(KEY_BIRTH_DATE, people.getBirthDate());
+        values.put(KEY_CURRENT_AGE, people.getCurrentAge());
+        values.put(KEY_DAYS_LEFT, people.getDaysLeft());
+
+        return values;
+    }
+
+
+    public boolean deleteNote(String where) {
+        return delete(TABLE_PEOPLES, where);
+    }
+    public boolean delete(String table, String where) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        long index = db.delete(table, where, null);
+        db.close();
+        return index > 0;
+    }
+
+
+
+    public Peoples cursorToNote(Cursor cursor) {
+
+        Peoples people = new Peoples();
+
+        people.setID(cursor.getInt(cursor.getColumnIndex(KEY_ID)));
+        people.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME)));
+        people.setSurname(cursor.getString(cursor.getColumnIndex(KEY_SURNAME)));
+        people.setBirthDate(cursor.getString(cursor.getColumnIndex(KEY_BIRTH_DATE)));
+        people.setCurrentAge(cursor.getString(cursor.getColumnIndex(KEY_CURRENT_AGE)));
+        people.setDaysLeft(cursor.getString(cursor.getColumnIndex(KEY_DAYS_LEFT)));
+
+
+        return people;
+    }
+
+
 
 
 }

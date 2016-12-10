@@ -3,6 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.mree.simplebirthdayreminder.MainActivity">
     <item
+        android:id="@+id/action_db"
+        android:orderInCategory="1"
+        android:title="@string/action_db"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_help"
         android:orderInCategory="1"
         android:title="@string/action_help"

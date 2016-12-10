@@ -3,12 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <ProgressBar
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="match_parent"
+    <com.lusfold.spinnerloading.SpinnerLoading
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:id="@+id/progressBar" />
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
