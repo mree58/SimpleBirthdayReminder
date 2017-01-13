@@ -13,22 +13,24 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,7 +43,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -64,9 +65,9 @@ public class PeoplesActivity extends AppCompatActivity implements BackupAndResto
     DisplayMetrics metrics;
 
     //initialize date and time
-    int year = 2010,month = 0,day = 1,hour = 13,minute= 30;
+    int year = 2000,month = 0,day = 1,hour = 13,minute= 30;
 
-    int edit_year = 2010 , edit_month = 0, edit_day = 1;
+    int edit_year = 2000 , edit_month = 0, edit_day = 1;
 
     private static int SIMPLE_NOTIFICATION_ID=1;
 
@@ -126,6 +127,11 @@ public class PeoplesActivity extends AppCompatActivity implements BackupAndResto
         backupData.setOnBackupListener(this);
 
 
+        Calendar c = Calendar.getInstance();
+        month = c.get(Calendar.MONTH);
+        day = c.get(Calendar.DAY_OF_MONTH);
+
+
         listPeoples.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
@@ -144,7 +150,7 @@ public class PeoplesActivity extends AppCompatActivity implements BackupAndResto
                     @Override
                     public void onClick(View v) {
 
-                        showPopupEdit(PeoplesActivity.this,array_ids[position],array_names[position],array_surnames[position],array_birthdates[position]);
+                        showDialogEdit(PeoplesActivity.this,array_ids[position],array_names[position],array_surnames[position],array_birthdates[position]);
                         infoDialog.dismiss();
 
 
@@ -244,7 +250,7 @@ public class PeoplesActivity extends AppCompatActivity implements BackupAndResto
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showPopup(PeoplesActivity.this);
+                showDialogAddNew(PeoplesActivity.this);
 
             }
         });
@@ -277,6 +283,7 @@ public class PeoplesActivity extends AppCompatActivity implements BackupAndResto
                 array_birthdates[i] = p.getBirthDate();
                 array_ages[i] = p.getCurrentAge();
                 array_days[i] = p.getDaysLeft();
+
             }
 
             ListAdapterPeoples adapter = new ListAdapterPeoples(PeoplesActivity.this, array_names, array_surnames, array_ages, array_birthdates, array_days);
@@ -292,37 +299,37 @@ public class PeoplesActivity extends AppCompatActivity implements BackupAndResto
 
 
 
-    private PopupWindow pw;
-    private void showPopup(final Activity context) {
+    private void showDialogAddNew(final Activity context) {
         try {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            final View layout = inflater.inflate(R.layout.layout_add_new, (ViewGroup) findViewById(R.id.popup));
 
-            float popupWidth = 350*metrics.scaledDensity;
-            float popupHeight = 260*metrics.scaledDensity;
-
-            pw = new PopupWindow(context);
-            pw.setContentView(layout);
-            pw.setWidth((int)popupWidth);
-            pw.setHeight((int)popupHeight);
-            pw.setFocusable(true);
-
-            Point p = new Point();
-            p.x = 50;
-            p.y = 50;
-
-            int OFFSET_X = -50;
-            int OFFSET_Y = (int)(90*metrics.scaledDensity);
+            final Dialog dialogAddNew = new Dialog(PeoplesActivity.this);
+            dialogAddNew.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialogAddNew.setContentView(R.layout.layout_add_new);
 
 
-            pw.showAtLocation(layout, Gravity.TOP, p.x + OFFSET_X, p.y + OFFSET_Y);
+            dialogAddNew.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+
+            WindowManager.LayoutParams wmlp = dialogAddNew.getWindow().getAttributes();
+
+            wmlp.gravity = Gravity.TOP;
+            wmlp.y = (int)(100*metrics.scaledDensity);
 
 
-            final EditText edtName= (EditText) layout.findViewById(R.id.popup_edt_name);
-            final EditText edtSurname= (EditText) layout.findViewById(R.id.popup_edt_surname);
-            final TextView txtDate= (TextView) layout.findViewById(R.id.popup_txt_date);
-            final TextView txtTime= (TextView) layout.findViewById(R.id.popup_txt_time);
-            final Switch swAlarm = (Switch)layout.findViewById(R.id.popup_switch_alarm);
+            final EditText edtName= (EditText) dialogAddNew.findViewById(R.id.popup_edt_name);
+            final EditText edtSurname= (EditText) dialogAddNew.findViewById(R.id.popup_edt_surname);
+            final TextView txtDate= (TextView) dialogAddNew.findViewById(R.id.popup_txt_date);
+            final TextView txtTime= (TextView) dialogAddNew.findViewById(R.id.popup_txt_time);
+            final Switch swAlarm = (Switch)dialogAddNew.findViewById(R.id.popup_switch_alarm);
+
+
+            VectorDrawableCompat drawableCompat=VectorDrawableCompat.create(getResources(), R.drawable.ic_person_black_24dp, edtName.getContext().getTheme());
+            edtName.setCompoundDrawablesRelativeWithIntrinsicBounds(drawableCompat, null, null, null);
+            DrawableCompat.setTint(drawableCompat, ContextCompat.getColor(context, R.color.white));
+
+
+            VectorDrawableCompat drawableCompat2=VectorDrawableCompat.create(getResources(), R.drawable.ic_person_black_24dp, edtSurname.getContext().getTheme());
+            edtSurname.setCompoundDrawablesRelativeWithIntrinsicBounds(drawableCompat2, null, null, null);
+            DrawableCompat.setTint(drawableCompat2, ContextCompat.getColor(context, R.color.white));
 
             txtTime.setClickable(false);
 
@@ -346,7 +353,9 @@ public class PeoplesActivity extends AppCompatActivity implements BackupAndResto
 
 
             final Calendar c = Calendar.getInstance();
-
+            c.set(year, month, day);
+            String date = new SimpleDateFormat("dd/MM/yyyy").format(c.getTime());
+            txtDate.setText(date);
 
             txtDate.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -387,7 +396,13 @@ public class PeoplesActivity extends AppCompatActivity implements BackupAndResto
                     TimePickerDialog tpd = new TimePickerDialog(PeoplesActivity.this, new TimePickerDialog.OnTimeSetListener() {
                         @Override
                         public void onTimeSet(TimePicker timePicker, int _hour, int _minute) {
-                            txtTime.setText( _hour + ":" + _minute);
+
+                            if(_hour<10 && _minute <10)
+                                txtTime.setText("0"+_hour + ":" + "0"+_minute);
+                            else if(_hour<10 && _minute >9)
+                                txtTime.setText("0"+_hour + ":" +_minute);
+                            else if(_hour>9 && _minute >9)
+                                txtTime.setText(_hour + ":" +_minute);
 
                             hour = _hour;
                             minute = _minute;
@@ -403,16 +418,16 @@ public class PeoplesActivity extends AppCompatActivity implements BackupAndResto
             });
 
 
-            ImageButton close= (ImageButton) layout.findViewById(R.id.popup_btn_close);
+            ImageButton close= (ImageButton) dialogAddNew.findViewById(R.id.popup_btn_close);
             close.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    pw.dismiss();
+                    dialogAddNew.dismiss();
 
                 }
             });
 
-            ImageButton save= (ImageButton) layout.findViewById(R.id.popup_btn_save);
+            ImageButton save= (ImageButton) dialogAddNew.findViewById(R.id.popup_btn_save);
             save.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -426,7 +441,12 @@ public class PeoplesActivity extends AppCompatActivity implements BackupAndResto
                     {
                         long inserted_id;
 
-                    inserted_id = db.addPeople(new Peoples(edtName.getText().toString(), edtSurname.getText().toString(),txtDate.getText().toString()));
+                        Log.d("z name",edtName.getText().toString());
+                        Log.d("z surname",edtSurname.getText().toString());
+                        Log.d("z birthdate",txtDate.getText().toString());
+
+
+                        inserted_id = db.addPeople(new Peoples(edtName.getText().toString(), edtSurname.getText().toString(),txtDate.getText().toString()));
                     load();
 
                     if(swAlarm.isChecked())
@@ -434,10 +454,13 @@ public class PeoplesActivity extends AppCompatActivity implements BackupAndResto
                         setAlarm(txtDate.getText().toString(),txtTime.getText().toString(),inserted_id);
                     }
 
-                    pw.dismiss();
+                        dialogAddNew.dismiss();
                     }
                 }
             });
+
+
+            dialogAddNew.show();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -446,37 +469,39 @@ public class PeoplesActivity extends AppCompatActivity implements BackupAndResto
 
 
 
-    private PopupWindow pwe;
-    private void showPopupEdit(final Activity context, final int update_id, final String name, final String sur_name, final String birth_date) {
+    private void showDialogEdit(final Activity context, final int update_id, final String name, final String sur_name, final String birth_date) {
         try {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            final View layout = inflater.inflate(R.layout.layout_edit, (ViewGroup) findViewById(R.id.popup));
 
-            float popupWidth = 350*metrics.scaledDensity;
-            float popupHeight = 210*metrics.scaledDensity;
-
-            pwe = new PopupWindow(context);
-            pwe.setContentView(layout);
-            pwe.setWidth((int)popupWidth);
-            pwe.setHeight((int)popupHeight);
-            pwe.setFocusable(true);
-
-            Point p = new Point();
-            p.x = 50;
-            p.y = 50;
-
-            int OFFSET_X = -50;
-            int OFFSET_Y = (int)(90*metrics.scaledDensity);
+            final Dialog dialogEdit = new Dialog(PeoplesActivity.this);
+            dialogEdit.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialogEdit.setContentView(R.layout.layout_edit);
 
 
-            pwe.showAtLocation(layout, Gravity.TOP, p.x + OFFSET_X, p.y + OFFSET_Y);
+            dialogEdit.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+
+            WindowManager.LayoutParams wmlp = dialogEdit.getWindow().getAttributes();
+
+            wmlp.gravity = Gravity.TOP;
+            wmlp.y = (int)(100*metrics.scaledDensity);
 
 
-            final EditText edtName= (EditText) layout.findViewById(R.id.popup_edt_name);
-            final EditText edtSurname= (EditText) layout.findViewById(R.id.popup_edt_surname);
-            final TextView txtDate= (TextView) layout.findViewById(R.id.popup_txt_date);
+
+
+            final EditText edtName= (EditText) dialogEdit.findViewById(R.id.popup_edt_name);
+            final EditText edtSurname= (EditText) dialogEdit.findViewById(R.id.popup_edt_surname);
+            final TextView txtDate= (TextView) dialogEdit.findViewById(R.id.popup_txt_date);
 
             final Calendar c = Calendar.getInstance();
+
+            VectorDrawableCompat drawableCompat=VectorDrawableCompat.create(getResources(), R.drawable.ic_person_black_24dp, edtName.getContext().getTheme());
+            edtName.setCompoundDrawablesRelativeWithIntrinsicBounds(drawableCompat, null, null, null);
+            DrawableCompat.setTint(drawableCompat, ContextCompat.getColor(context, R.color.white));
+
+
+            VectorDrawableCompat drawableCompat2=VectorDrawableCompat.create(getResources(), R.drawable.ic_person_black_24dp, edtSurname.getContext().getTheme());
+            edtSurname.setCompoundDrawablesRelativeWithIntrinsicBounds(drawableCompat2, null, null, null);
+            DrawableCompat.setTint(drawableCompat2, ContextCompat.getColor(context, R.color.white));
+
 
             edtName.setText(name);
             edtSurname.setText(sur_name);
@@ -539,16 +564,16 @@ public class PeoplesActivity extends AppCompatActivity implements BackupAndResto
                 }
             });
 
-            ImageButton close= (ImageButton) layout.findViewById(R.id.popup_btn_close);
+            ImageButton close= (ImageButton) dialogEdit.findViewById(R.id.popup_btn_close);
             close.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    pwe.dismiss();
+                    dialogEdit.dismiss();
 
                 }
             });
 
-            ImageButton save= (ImageButton) layout.findViewById(R.id.popup_btn_save);
+            ImageButton save= (ImageButton) dialogEdit.findViewById(R.id.popup_btn_save);
             save.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -573,7 +598,7 @@ public class PeoplesActivity extends AppCompatActivity implements BackupAndResto
 
 
                             load();
-                            pwe.dismiss();
+                            dialogEdit.dismiss();
                         }
                         else
                         {
@@ -584,6 +609,8 @@ public class PeoplesActivity extends AppCompatActivity implements BackupAndResto
                     }
                 }
             });
+
+            dialogEdit.show();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -652,30 +679,22 @@ public class PeoplesActivity extends AppCompatActivity implements BackupAndResto
         }
     }
 
-    private PopupWindow pwa;
     private void showPopupAbout(final Activity context) {
         try {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View layout = inflater.inflate(R.layout.layout_about, (ViewGroup) findViewById(R.id.popup_1));
 
-            float popupWidth = 330*metrics.scaledDensity;
-            float popupHeight = 500*metrics.scaledDensity;
-
-            pwa = new PopupWindow(context);
-            pwa.setContentView(layout);
-            pwa.setWidth((int)popupWidth);
-            pwa.setHeight((int)popupHeight);
-            pwa.setFocusable(true);
-
-            Point p = new Point();
-            p.x = 50;
-            p.y = 50;
-
-            int OFFSET_X = -50;
-            int OFFSET_Y = (int)(50*metrics.scaledDensity);
+            final Dialog dialogAbout = new Dialog(PeoplesActivity.this);
+            dialogAbout.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialogAbout.setContentView(R.layout.layout_about);
 
 
-            pwa.showAtLocation(layout, Gravity.TOP, p.x + OFFSET_X, p.y + OFFSET_Y);
+            dialogAbout.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+
+            WindowManager.LayoutParams wmlp = dialogAbout.getWindow().getAttributes();
+
+            wmlp.gravity = Gravity.TOP;
+            wmlp.y = (int)(50*metrics.scaledDensity);
+
+            dialogAbout.show();
 
 
         } catch (Exception e) {
@@ -885,13 +904,13 @@ public class PeoplesActivity extends AppCompatActivity implements BackupAndResto
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_db) {
+       /* if (id == R.id.action_db) {
 
             checkPermissions();
 
 
-        }
-        else if (id == R.id.action_help) {
+        }*/
+        if (id == R.id.action_help) {
 
             Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.action_help_message), Toast.LENGTH_LONG);
             TextView vv = (TextView) toast.getView().findViewById(android.R.id.message);

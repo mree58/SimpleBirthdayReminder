@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Simple Birthday Reminder</string>
+    <string name="app_name">Birthday Reminder</string>
 
     <string name="action_db">Backup &amp; Restore</string>
     <string name="action_help">Help</string>
@@ -15,7 +15,8 @@
     <string name="about_title_application">About Application</string>
     <string name="about_application">This application is open-source software. You can find the source codes on GitHub: mree58 \nFeel free to contact if you have any ideas or problems with application. Mail: emrebaran.ceng@gmail.com</string>
     <string name="about_title_permissions">About Permissions</string>
-    <string name="about_permissions">WAKE_LOCK: for alarm, let you inform about incoming birthdays\nWRITE_EXTERNAL_STORAGE: for backup your database\nREAD_EXTERNAL_STORAGE: for restore your database</string>
+    <string name="about_permissions">WAKE_LOCK: for alarm, let you inform about incoming birthdays</string>
+    <!--\nWRITE_EXTERNAL_STORAGE: for backup your database\nREAD_EXTERNAL_STORAGE: for restore your database -->
     <string name="about_application_version">Application Version: 1.3.0</string>
     <string name="about_supported_languages">Supported Languages: English, Türkçe</string>
 

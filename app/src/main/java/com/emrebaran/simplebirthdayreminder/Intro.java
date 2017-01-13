@@ -26,7 +26,7 @@ public class Intro extends Activity {
             public void run(){
                 try {
 
-                    sleep(1200);
+                    sleep(1000);
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -41,6 +41,12 @@ public class Intro extends Activity {
         };
         intro.start();
 
+    }
+
+    @Override
+    public void onBackPressed() {
+            super.onBackPressed();
+            return;
     }
 
 }

@@ -47,7 +47,7 @@ public class ListAdapterPeoples extends ArrayAdapter<String>{
 	txtTitle3.setText(_birthdate[position]);
 	txtTitle4.setText(_age[position]);
 	txtTitle5.setText(_daysleft[position]);
-	
+
 	return rowView;
 	}
 	 

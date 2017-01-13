@@ -15,7 +15,8 @@
     <string name="about_title_application">Uygulama Hakkında</string>
     <string name="about_application">Bu uygulama açık-kaynak bir yazılımdır. Kaynak kodları GitHub\'da bulabilirsiniz: mree58 \nFikirlerinizi paylaşmak istiyorsanız veya uygulama ile ilgili sorun yaşıyorsanız lütfen iletişime geçin. Mail: emrebaran.ceng@gmail.com</string>
     <string name="about_title_permissions">İzinler Hakkında</string>
-    <string name="about_permissions">WAKE_LOCK: alarm kurabilmek için, yaklaşan doğum günleri hakkında bildirim alırsınız\nWRITE_EXTERNAL_STORAGE: verilerinizi yedekleyebilmek için\nREAD_EXTERNAL_STORAGE: yedeklenen verilerinizi geri yükleyebilmek için</string>
+    <string name="about_permissions">WAKE_LOCK: alarm kurabilmek için, yaklaşan doğum günleri hakkında bildirim alırsınız</string>
+    <!--\nWRITE_EXTERNAL_STORAGE: verilerinizi yedekleyebilmek için\nREAD_EXTERNAL_STORAGE: yedeklenen verilerinizi geri yükleyebilmek için-->
     <string name="about_application_version">Uygulama Versiyonu: 1.3.0</string>
     <string name="about_supported_languages">Desteklenen Diller: English, Türkçe</string>
 
